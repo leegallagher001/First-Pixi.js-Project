@@ -11,7 +11,9 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "pixi.js": "^8.16.0"
+    "pixi.js": "^8.16.0",
+    "pixi.js-keyboard": "^1.1.6",
+    "pixijs-input-devices": "^0.8.0-beta.11"
   },
   "devDependencies": {
     "@pixi/devtools": "^2.0.1",

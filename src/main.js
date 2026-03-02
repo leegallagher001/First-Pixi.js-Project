@@ -1,4 +1,4 @@
-import { Application, Graphics, Text, TextStyle, Sprite, Assets } from "pixi.js";
+import { Application, Graphics, Text, TextStyle, Sprite, Assets, Container } from "pixi.js";
 
 import { initDevtools } from "@pixi/devtools";
 
@@ -10,7 +10,7 @@ import { initDevtools } from "@pixi/devtools";
         // width: window.innerWidth,
         // height: window.innerHeight,
         resizeTo: window,
-        // backgroundAlpha: 0.2,
+        backgroundAlpha: 0.8,
         backgroundColor: 0x000000,
         // antialias: true,
     });
@@ -34,16 +34,29 @@ import { initDevtools } from "@pixi/devtools";
 
     app.stage.addChild(rectangle);
 
+    rectangle.eventMode = 'static'; // enables interactivity for the rectangle
+
+    rectangle.cursor = 'pointer'; // changes the cursor to a pointer when hovering over the rectangle
+
+    rectangle.on('mousedown', moveRect);
+
+    function moveRect() {
+        rectangle.x -= 5;
+        rectangle.y += 5;
+    }
+
     const star = new Graphics()
         .star(1000, 250, 12, 80, 2) // .star(x, y, points, radius, innerRadius)
         .fill({ color: 0xffffff })
 
     app.stage.addChild(star);
     
+    const font = await Assets.load('/fonts/static/DMSans-Regular.ttf');
+
     const style = new TextStyle({
         fill: 0xffffff,
         fontSize: 72,
-        fontFamily: 'Montserrat Medium',
+        fontFamily: font.family,
     });
 
     const text = new Text({
@@ -84,7 +97,53 @@ import { initDevtools } from "@pixi/devtools";
     // sprite.anchor.y = 0.5;
     sprite.anchor.set(0.5, 0.5);
 
+    const circle = new Graphics();
+
+    app.ticker.add(() => {
+        circle.circle(
+            Math.random() * app.screen.width,
+            Math.random() * app.screen.height,
+            1 // radius of the circles generated randomly across the screen
+        )
+        .fill({
+            color: 0xffffff,
+        });
+
+        app.stage.addChild(circle);
+    });
+
     document.body.appendChild(app.canvas);
 
+    const jetsContainer = new Container();
+    app.stage.addChild(jetsContainer);
+    jetsContainer.position.set(400, 300); // sets container position to (x, y) on whole screen
+
+    const jetTexture1 = await Assets.load('/images/F-16.svg');
+    const jetSprite1 = Sprite.from(jetTexture1);
+    jetSprite1.scale.set(0.15, 0.15);
+
+    jetsContainer.addChild(jetSprite1);
+
+    const jetTexture2 = await Assets.load('/images/F-16.svg');
+    const jetSprite2 = Sprite.from(jetTexture2);
+    jetSprite2.scale.set(0.15, 0.15);
+
+    jetsContainer.addChild(jetSprite2);
+
+    const jetTexture3 = await Assets.load('/images/F-16.svg');
+    const jetSprite3 = Sprite.from(jetTexture3);
+    jetSprite3.scale.set(0.15, 0.15);
+
+    jetsContainer.addChild(jetSprite3);
+
+    jetSprite2.position.set(100, 0); // sets position of jetSprite2 to (x, y) relative to the container's position
+    jetSprite3.position.set(200, 0); // can use 'getGlobalPosition()' to get the global position of the sprite relative to the whole screen
+
+    const texturePromise = Assets.load('/images/zombie.svg');
+    texturePromise.then((resolvedTexture) => {
+        const sprite = Sprite.from(resolvedTexture);
+        sprite.scale.set(0.1, 0.1);
+        app.stage.addChild(sprite);
+    });
 })();
 
