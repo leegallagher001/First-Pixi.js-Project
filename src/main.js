@@ -1,5 +1,7 @@
 import { Application, Graphics, Text, TextStyle, Sprite, Assets } from "pixi.js";
 
+import { initDevtools } from "@pixi/devtools";
+
 (async () => {
 
     const app = new Application();
@@ -12,6 +14,8 @@ import { Application, Graphics, Text, TextStyle, Sprite, Assets } from "pixi.js"
         backgroundColor: 0x000000,
         // antialias: true,
     });
+
+    initDevtools({ app });
 
     // app.renderer.background.alpha = 0.3;
 
@@ -68,6 +72,17 @@ import { Application, Graphics, Text, TextStyle, Sprite, Assets } from "pixi.js"
     // text.position.x = 1000;
     // text.position.y = 100;
     // text.position.set(1000, 100);  // sets position of text to (x, y)
+
+    // sprite.skew.x = Math.PI / 4; // skews the sprite along the x-axis by 45 degrees
+
+    sprite.rotation = Math.PI / 4; // rotates the sprite by 45 degrees
+
+    // sprite.pivot.x = sprite.width / 2; // sets the pivot point to the center of the sprite
+    // sprite.pivot.y = sprite.height / 2; 
+
+    // sprite.anchor.x = 0.5; // sets the anchor point to the center of the sprite
+    // sprite.anchor.y = 0.5;
+    sprite.anchor.set(0.5, 0.5);
 
     document.body.appendChild(app.canvas);
 
