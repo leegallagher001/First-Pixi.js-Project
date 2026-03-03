@@ -63,7 +63,38 @@ import { initDevtools } from "@pixi/devtools";
 
     // -- Pickups -- //
 
-    
+    const pizza = await Assets.load('/images/pizza.svg');
+    const pizzaSprite = Sprite.from(pizza);
+    pizzaSprite.scale.set(0.2, 0.2);
+
+    function pizzaSpawn() {
+        // Spawns the target at a random position on our stage
+        // Create two random points on our stage
+        var randomX = Math.floor((Math.random() * 10) + 0);
+        var randomY = Math.floor((Math.random() * 10) + 0);
+
+        // Set the position of our target
+        pizzaSprite.position.x = randomX * 50;
+        pizzaSprite.position.y = randomY * 50;
+
+        app.stage.addChild(pizzaSprite);
+
+    };
+
+    function checkPlayerPosition() {
+        // If the player and target are at the same position, spawn the target in another position
+        if (pizzaSprite.position.x === playerSprite.position.x && pizzaSprite.position.y === playerSprite.position.y) {
+            score++;
+            pizzaSpawn();
+        };
+    };
+
+    function gameLoop() {
+        pizzaSpawn();
+        checkPlayerPosition();
+    };
+
+    gameLoop();
 
     // -- Player -- //
 
