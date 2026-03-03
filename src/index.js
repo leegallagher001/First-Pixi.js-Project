@@ -52,6 +52,15 @@ import { initDevtools } from "@pixi/devtools";
     scoreText.position.set(100, 50);
     headerContainer.addChild(scoreText);
 
+    const title = new Text({
+        text: "Zombie Pizza",
+        style
+    });
+
+    title.anchor.set(0.5, 0.5);
+    title.position.set(headerContainer.width / 2, headerContainer.height / 2);
+    headerContainer.addChild(title);
+
     // -- Footer -- // (WORK IN PROGRESS)
 
     //const footer = new Graphics()
@@ -66,6 +75,7 @@ import { initDevtools } from "@pixi/devtools";
     const pizza = await Assets.load('/images/pizza.svg');
     const pizzaSprite = Sprite.from(pizza);
     pizzaSprite.scale.set(0.2, 0.2);
+    pizzaSprite.zIndex = 1;
 
     function pizzaSpawn() {
         // Spawns the target at a random position on our stage
@@ -82,19 +92,13 @@ import { initDevtools } from "@pixi/devtools";
     };
 
     function checkPlayerPosition() {
-        // If the player and target are at the same position, spawn the target in another position
-        if (pizzaSprite.position.x === playerSprite.position.x && pizzaSprite.position.y === playerSprite.position.y) {
+        if (playerSprite.position.x == pizzaSprite.position && playerSprite.position.y == pizzaSprite.position) {
             score++;
             pizzaSpawn();
         };
     };
 
-    function gameLoop() {
-        pizzaSpawn();
-        checkPlayerPosition();
-    };
-
-    gameLoop();
+    pizzaSpawn();
 
     // -- Player -- //
 
@@ -104,7 +108,10 @@ import { initDevtools } from "@pixi/devtools";
     const playerSprite = Sprite.from(player);
     playerSprite.position.set(window.innerWidth / 2, window.innerHeight / 2, 0.5);
     playerSprite.scale.set(0.1, 0.1);
+    playerSprite.zIndex = 1;
     app.stage.addChild(playerSprite);
+
+    checkPlayerPosition();
 
     // Basic Keyboard Control
 
