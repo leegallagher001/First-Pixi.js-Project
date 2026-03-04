@@ -35,7 +35,7 @@ import { initDevtools } from "@pixi/devtools";
         });
     headerContainer.addChild(header);
 
-    let score = 0;
+    var score = 0;
 
     const style = new TextStyle({
         fill: 0xffffff,
@@ -43,7 +43,7 @@ import { initDevtools } from "@pixi/devtools";
         fontFamily: "Ariel, sans-serif",
     });
 
-    const scoreText = new Text({
+    var scoreText = new Text({
         text: `Score: ${score}`,
         style
     });
@@ -91,14 +91,15 @@ import { initDevtools } from "@pixi/devtools";
 
     };
 
-    function checkPlayerPosition() {
-        if (playerSprite.position.x == pizzaSprite.position && playerSprite.position.y == pizzaSprite.position) {
-            score++;
-            pizzaSpawn();
-        };
-    };
+    function spritesIntersect(a, b) {
+        let aBox = a.getBounds();
+        let bBox = b.getBounds();
 
-    pizzaSpawn();
+        return aBox.x + aBox.width > bBox.x && 
+               aBox.x < bBox.x + bBox.width &&
+               aBox.y + aBox.height > bBox.y &&
+               aBox.y < bBox.y + bBox.height;
+    };
 
     // -- Player -- //
 
@@ -110,8 +111,20 @@ import { initDevtools } from "@pixi/devtools";
     playerSprite.scale.set(0.1, 0.1);
     playerSprite.zIndex = 1;
     app.stage.addChild(playerSprite);
+    app.ticker.add(gameLoop);
 
-    checkPlayerPosition();
+    // -- Collisions -- //
+
+    function gameLoop(delta) {
+        if (spritesIntersect(playerSprite, pizzaSprite)) {
+            pizzaSpawn();
+            score++;
+            scoreText.text = `Score: ${score}`;
+        };
+    };
+
+    pizzaSpawn();
+    gameLoop();
 
     // Basic Keyboard Control
 
