@@ -65,16 +65,36 @@ import { initDevtools } from "@pixi/devtools";
     title.position.set(headerContainer.width / 2, headerContainer.height / 2);
     headerContainer.addChild(title);
 
-    // -- Footer -- // (WORK IN PROGRESS)
+    // Timer
 
-    //const footer = new Graphics()
-    //   .rect(0, window.innerHeight, window.innerWidth, 75) // should figure out how to control width (the 3rd variable) in a better way
-      // .fill ({
-        //   color: 0x5e3202
-        //});
+    var timeLeft = 60;
 
-    //footer.anchor.set(0.5, 0.5);
-    //app.stage.addChild(footer);
+    const timer = new Text ({
+        text: `Time Left: ${timeLeft}`,
+        style
+    })
+
+    timer.anchor.set(0.5, 0.5)
+    timer.position.set((window.innerWidth - 100), 50);
+    app.stage.addChild(timer);
+
+    // -- Footer -- //
+
+    const footer = new Graphics()
+        .rect(0, (window.innerHeight - 100), window.innerWidth, 100) // should figure out how to control width (the 3rd variable) in a better way
+        .fill ({ color: 0x5e3202 })
+    app.stage.addChild(footer);
+
+    // Placeholder Statement - WILL ADD BUTTONS TO ASSET CREDITS HERE LATER
+
+    const footerText = new Text({
+        text: "Created by Lee Gallagher 2026",
+        style
+    })
+
+    footerText.anchor.set(0.5, 0.5);
+    footerText.position.set((window.innerWidth / 2), (window.innerHeight - 50));
+    app.stage.addChild(footerText);
 
     // -- Pickups -- //
 
@@ -100,7 +120,7 @@ import { initDevtools } from "@pixi/devtools";
 
         app.stage.addChild(pizzaSprite);
 
-        if (pizzaSprite.position.y < 150 || pizzaSprite.position.y > (window.innerHeight - 50)) {
+        if (pizzaSprite.position.y < 150 || pizzaSprite.position.y > (window.innerHeight - 150)) {
             pizzaSpawn(); // prevents pizza from spawning in the header or too close to the bottom of the window
         };
 
@@ -171,6 +191,7 @@ import { initDevtools } from "@pixi/devtools";
 
         if (playerSprite.x < 0) playerSprite.x = 0;
         if (playerSprite.y < 100) playerSprite.y = 100;
+        if (playerSprite.y > (window.innerHeight - 175)) playerSprite.y = (window.innerHeight - 175);
         if (playerSprite.x + playerSprite.width > app.canvas.width) {
             playerSprite.x = app.canvas.width - playerSprite.width;
         }
