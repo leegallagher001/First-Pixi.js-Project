@@ -29,11 +29,13 @@ import { initDevtools } from "@pixi/devtools";
     app.stage.addChild(headerContainer);
 
     const header = new Graphics()
-        .rect(0, 0, window.innerWidth, 100) // should figure out how to control width (the 3rd variable) in a better way
+        .rect(0, 0, window.innerWidth, 100)
         .fill ({
             color: 0x5e3202
         });
     headerContainer.addChild(header);
+
+    // Score Counter
 
     var score = 0;
 
@@ -52,6 +54,8 @@ import { initDevtools } from "@pixi/devtools";
     scoreText.position.set(100, 50);
     headerContainer.addChild(scoreText);
 
+    // Title
+
     const title = new Text({
         text: "Zombie Pizza",
         style
@@ -64,13 +68,17 @@ import { initDevtools } from "@pixi/devtools";
     // -- Footer -- // (WORK IN PROGRESS)
 
     //const footer = new Graphics()
-    //    .rect(0, 0, window.innerWidth, 150) // should figure out how to control width (the 3rd variable) in a better way
-    //    .fill ({
-    //        color: 0x5e3202
-    //    });
+    //   .rect(0, window.innerHeight, window.innerWidth, 75) // should figure out how to control width (the 3rd variable) in a better way
+      // .fill ({
+        //   color: 0x5e3202
+        //});
+
+    //footer.anchor.set(0.5, 0.5);
     //app.stage.addChild(footer);
 
     // -- Pickups -- //
+
+    // Pizza Spawning
 
     const pizza = await Assets.load('/images/pizza.svg');
     const pizzaSprite = Sprite.from(pizza);
@@ -80,14 +88,25 @@ import { initDevtools } from "@pixi/devtools";
     function pizzaSpawn() {
         // Spawns the target at a random position on our stage
         // Create two random points on our stage
-        var randomX = Math.floor((Math.random() * 10) + 0);
-        var randomY = Math.floor((Math.random() * 10) + 0);
+        //var randomX = Math.floor((Math.random() * 10) + 0);
+        //var randomY = Math.floor((Math.random() * 10) + 0);
+
+        var randomX = Math.random(); // random decimal number between 0 and 1
+        var randomY = Math.random();
 
         // Set the position of our target
-        pizzaSprite.position.x = randomX * 50;
-        pizzaSprite.position.y = randomY * 50;
+        pizzaSprite.position.x = randomX * window.innerWidth; // multiply number by width of window (effectively a percentage of the window width)
+        pizzaSprite.position.y = randomY * window.innerHeight; // multiply number by height of window (effectively a percentage of the window height)
 
         app.stage.addChild(pizzaSprite);
+
+        if (pizzaSprite.position.y < 150 || pizzaSprite.position.y > (window.innerHeight - 50)) {
+            pizzaSpawn(); // prevents pizza from spawning in the header or too close to the bottom of the window
+        };
+
+        if (pizzaSprite.position.x < 50 || pizzaSprite.position.x > (window.innerWidth - 50)) {
+            pizzaSpawn(); // prevents pizza from spawning too close to the sides of the window
+        }
 
     };
 
@@ -128,7 +147,7 @@ import { initDevtools } from "@pixi/devtools";
 
     // Basic Keyboard Control
 
-    const speed = 5; // speed of player movement
+    const speed = 10; // speed of player movement
     const keys = {}; // declared so that it can be used in both event listeners and the ticker
 
     window.addEventListener("keydown", (e) => { // 
