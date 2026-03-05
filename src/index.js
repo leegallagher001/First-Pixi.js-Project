@@ -66,7 +66,6 @@ import { initDevtools } from "@pixi/devtools";
     headerContainer.addChild(title);
 
     // Timer
-
     var timeLeft = 60;
 
     const timer = new Text ({
@@ -77,6 +76,13 @@ import { initDevtools } from "@pixi/devtools";
     timer.anchor.set(0.5, 0.5)
     timer.position.set((window.innerWidth - 100), 50);
     app.stage.addChild(timer);
+
+    function updateTimer() {
+    
+        if (timeLeft > 0) timeLeft = timeLeft - 1;
+        timer.text = `Time Left: ${timeLeft}`;
+    
+    };
 
     // -- Footer -- //
 
@@ -162,8 +168,33 @@ import { initDevtools } from "@pixi/devtools";
         };
     };
 
+    // -- Start Menu -- //
+
+    //const start = new Container();
+    //start.width()
+    //start.anchor.set(0.5, 0.5);
+    //start.position.set((window.innerWidth / 2), (window.innerHeight / 2));
+    //app.stage.addChild(start);
+
+    //const startBtn = new Graphics()
+    //    .rect(0, 0, 300, 100)
+    //    .fill({ color: 0x5e3202 })
+    //startBtn.anchor.set(0.5, 0.5);
+    //start.addChild(startBtn);
+
+    //const startText = new Text({
+    //    text: 'Start Game',
+    //    style
+    //});
+    //startText.anchor.set(0.5, 0.5);
+    //start.addChild(startText);
+
+    // -- Game Start -- //
+
     pizzaSpawn();
     gameLoop();
+    updateTimer();
+    setInterval(updateTimer, 1000);
 
     // Basic Keyboard Control
 
