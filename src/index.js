@@ -94,6 +94,7 @@ import { initDevtools } from "@pixi/devtools";
             gameEnding.position.set((window.innerWidth / 2), (window.innerHeight / 2));
             gameEnding.width = 400;
             app.stage.addChild(gameEnding);
+            timeLeft = -1; // stops the loop playing and printing same statement continuously
         };
     
     };
