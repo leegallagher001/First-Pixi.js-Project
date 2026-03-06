@@ -66,12 +66,12 @@ import { initDevtools } from "@pixi/devtools";
     headerContainer.addChild(title);
 
     // Timer
-    var timeLeft = 60;
+    var timeLeft = 61;
 
     const timer = new Text ({
         text: `Time Left: ${timeLeft}`,
         style
-    })
+    });
 
     timer.anchor.set(0.5, 0.5)
     timer.position.set((window.innerWidth - 100), 50);
@@ -81,6 +81,20 @@ import { initDevtools } from "@pixi/devtools";
     
         if (timeLeft > 0) timeLeft = timeLeft - 1;
         timer.text = `Time Left: ${timeLeft}`;
+
+        if (timeLeft === 0) {
+            const gameEnding = new Text ({
+                text: `Time Up! You Ate ${score} Pizzas In 60 Seconds!`,
+                fontSize: 108,
+                fill: 0x000000,
+                fontFamily: "Ariel, sans-serif"
+            });
+
+            gameEnding.anchor.set(0.5, 0.5);
+            gameEnding.position.set((window.innerWidth / 2), (window.innerHeight / 2));
+            gameEnding.width = 400;
+            app.stage.addChild(gameEnding);
+        };
     
     };
 
