@@ -83,6 +83,7 @@ import { initDevtools } from "@pixi/devtools";
         };
 
         if (timeLeft === 0) {
+            
             const gameEnding = new Text ({
                 text: `Time Up! You Ate ${score} Pizzas In 60 Seconds!`,
                 fontSize: 108,
@@ -99,6 +100,8 @@ import { initDevtools } from "@pixi/devtools";
         
         if (timeLeft < 0) {
 
+            app.stage.removeChild(playerSprite);
+            app.stage.removeChild(pizzaSprite);
             timer.text = "FINISHED!";
 
             };
@@ -190,6 +193,7 @@ import { initDevtools } from "@pixi/devtools";
 
     function gameStart() {
           const start = new Container();
+          start.sortableChildren = true;
           start.width = window.innerWidth * 0.4;
           start.position.set(0, 0);
           app.stage.addChild(start);
@@ -214,7 +218,7 @@ import { initDevtools } from "@pixi/devtools";
           const startBtnStyle = new TextStyle({
             fill: 0xffffff,
             fontSize: 36,
-            padding: 10
+            padding: 25
           })
 
           const startBtn = new Text('Start Game', startBtnStyle);
@@ -223,7 +227,14 @@ import { initDevtools } from "@pixi/devtools";
           startBtn.anchor.set(0.5, 0.5);
           startBtn.backgroundColor = 0x000000;
           startBtn.interactive = true;
+          startBtn.zIndex = 2; // renders button text after background
           start.addChild(startBtn);
+
+          const startBtnBG = new Graphics()
+              .rect(startBtn.x - ((startBtn.width / 2) + 25), (startBtn.y - ((startBtn.height / 2) + 25)), (startBtn.width + 50), (startBtn.height + 50))
+              .fill({ color: 0x000000 })
+          startBtnBG.zIndex = 1; // renders background of "button" first (so background is behind text)
+          start.addChild(startBtnBG);
 
           // Start Button Activation
 
