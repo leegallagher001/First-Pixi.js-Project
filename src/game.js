@@ -22,6 +22,8 @@ import { initDevtools } from "@pixi/devtools";
 
     app.canvas.style.position = "absolute";
 
+    const titleFont = await Assets.load("/fonts/static/PixelifySans-Bold.ttf");
+
     // -- Header -- //
 
     const headerContainer = new Container();
@@ -205,8 +207,8 @@ import { initDevtools } from "@pixi/devtools";
 
           const titleStyle = new TextStyle({
               fill: 0xffffff,
-              fontSize: 48,
-              fontFamily: "Ariel, sans-serif",
+              fontSize: 72,
+              fontFamily: titleFont.family
           });
 
           const startTitle = new Text('Zombie Pizza', titleStyle);
@@ -216,9 +218,10 @@ import { initDevtools } from "@pixi/devtools";
           start.addChild(startTitle);
 
           const startBtnStyle = new TextStyle({
-            fill: 0xffffff,
+            fill: 0x5e3202,
             fontSize: 36,
-            padding: 25
+            padding: 25,
+            fontFamily: titleFont.family
           })
 
           const startBtn = new Text('Start Game', startBtnStyle);
@@ -232,7 +235,7 @@ import { initDevtools } from "@pixi/devtools";
 
           const startBtnBG = new Graphics()
               .rect(startBtn.x - ((startBtn.width / 2) + 25), (startBtn.y - ((startBtn.height / 2) + 25)), (startBtn.width + 50), (startBtn.height + 50))
-              .fill({ color: 0x000000 })
+              .fill({ color: 0x41bd06 })
           startBtnBG.zIndex = 1; // renders background of "button" first (so background is behind text)
           start.addChild(startBtnBG);
 
