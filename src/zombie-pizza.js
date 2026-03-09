@@ -119,6 +119,14 @@ import { initDevtools } from "@pixi/devtools";
 
     // Placeholder Statement - WILL ADD BUTTONS TO ASSET CREDITS HERE LATER
 
+    const backText = new Text({
+        text: "Back To Start Menu",
+        style
+    })
+
+    backText.anchor.set(0.5, 0.5);
+    backText.position.set((window.innerWidth * 0.15), (window.innerHeight - 50));
+
     const footerText = new Text({
         text: "Created by Lee Gallagher 2026",
         style
@@ -126,6 +134,14 @@ import { initDevtools } from "@pixi/devtools";
 
     footerText.anchor.set(0.5, 0.5);
     footerText.position.set((window.innerWidth / 2), (window.innerHeight - 50));
+
+    const creditsText = new Text({
+        text: "Asset Credits",
+        style
+    })
+
+    creditsText.anchor.set(0.5, 0.5);
+    creditsText.position.set((window.innerWidth * 0.85), (window.innerHeight - 50));
 
     // -- Pickups -- //
 
@@ -249,7 +265,9 @@ import { initDevtools } from "@pixi/devtools";
             app.stage.addChild(headerContainer);
             app.stage.addChild(timer);
             app.stage.addChild(footer);
+            app.stage.addChild(backText);
             app.stage.addChild(footerText);
+            app.stage.addChild(creditsText);
             
             // Add player sprite
             app.stage.addChild(playerSprite);
