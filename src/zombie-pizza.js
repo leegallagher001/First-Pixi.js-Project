@@ -124,8 +124,21 @@ import { initDevtools } from "@pixi/devtools";
         style
     })
 
+    backText.interactive = true;
     backText.anchor.set(0.5, 0.5);
     backText.position.set((window.innerWidth * 0.15), (window.innerHeight - 50));
+
+    backText.on('pointerdown', () => { // when backText is pressed
+            // Back to start menu (start of game)
+            gameStart();
+            app.stage.removeChild(headerContainer);
+            app.stage.removeChild(playerSprite);
+            app.stage.removeChild(pizzaSprite);
+            app.stage.removeChild(footer);
+            app.stage.removeChild(backText);
+            app.stage.removeChild(footerText);
+            app.stage.removeChild(creditsText);
+    });
 
     const footerText = new Text({
         text: "Created by Lee Gallagher 2026",
